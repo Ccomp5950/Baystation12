@@ -43,6 +43,7 @@ var/datum/antagonist/rogue_ai/malf
 /datum/antagonist/rogue_ai/greet(var/datum/mind/player)
 
 	// Initializes the AI's malfunction stuff.
+	
 	spawn(0)
 		if(!..())
 			return
@@ -52,6 +53,12 @@ var/datum/antagonist/rogue_ai/malf
 			error("Non-AI mob designated malf AI! Report this.")
 			world << "##ERROR: Non-AI mob designated malf AI! Report this."
 			return 0
+
+		//deletes any inactive AI_cores in the same loc.
+		
+		var/obj/structure/AIcore/deactivated/deleteme = locate(A.loc)
+		if(deleteme)
+			qdel(deleteme)
 
 		A.setup_for_malf()
 		A.laws = new /datum/ai_laws/nanotrasen/malfunction
